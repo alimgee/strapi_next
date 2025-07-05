@@ -124,3 +124,4 @@ coverage
 .env.development.local
 .env.test.local
 .env.production.local
+cms/node_modules/@babel/generator/lib/generators/deprecated.js
