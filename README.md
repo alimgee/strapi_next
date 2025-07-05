@@ -1,22 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js + Strapi Integration
 
-## Getting Started
+This project demonstrates a complete integration between Next.js and Strapi CMS, providing a robust foundation for content-driven applications.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **TypeScript Support**: Fully typed API responses and content models
+- **Content Types**: Pre-configured Articles, Organizations, and Pages
+- **API Utilities**: Comprehensive API layer with error handling
+- **Mock Data Fallback**: Development continues even when Strapi is offline
+- **Responsive Demo**: Interactive demo showing API integration
+- **Error Handling**: Graceful fallbacks and error states
+
+## 📁 Project Structure
+
+```
+├── cms/                    # Strapi backend
+│   ├── src/
+│   │   ├── api/           # Content type definitions
+│   │   └── config/        # Strapi configuration
+│   └── package.json
+├── src/                   # Next.js frontend
+│   ├── app/              # App router pages
+│   ├── lib/              # API utilities and helpers
+│   │   ├── strapi.ts     # Strapi API client
+│   │   └── mock-data.ts  # Development mock data
+│   └── types/            # TypeScript definitions
+│       └── strapi.ts     # Strapi content types
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Setup Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Start the Development Servers
+
+**Terminal 1 - Start Strapi:**
+```bash
+cd cms
+npx strapi develop
+```
+
+**Terminal 2 - Start Next.js:**
+```bash
+npm run dev
+```
+
+### 2. Configure Strapi
+
+1. Open http://localhost:1337/admin
+2. Create an admin user account
+3. The content types (Articles, Organizations, Pages) are pre-configured
+4. Add sample content through the admin interface
+
+### 3. View the Integration
+
+- **Homepage**: http://localhost:3000 - Overview and getting started
+- **Demo Page**: http://localhost:3000/demo - Live API integration demo
+- **Strapi Admin**: http://localhost:1337/admin - Content management
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
