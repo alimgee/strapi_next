@@ -4,8 +4,7 @@
   "info": {
     "singularName": "page",
     "pluralName": "pages",
-    "displayName": "Page",
-    "description": "Static pages like About, Story, etc."
+    "displayName": "Page"
   },
   "options": {
     "draftAndPublish": true
@@ -14,31 +13,31 @@
   "attributes": {
     "title": {
       "type": "string",
-      "required": true,
-      "maxLength": 255
+      "required": true
     },
     "slug": {
       "type": "uid",
-      "targetField": "title",
-      "required": true
+      "targetField": "title"
     },
     "content": {
-      "type": "richtext",
+      "type": "blocks",
       "required": true
     },
     "metaTitle": {
-      "type": "string",
-      "maxLength": 60
+      "type": "string"
     },
-    "metaDescription": {
-      "type": "text",
-      "maxLength": 160
+    "metaDesription": {
+      "type": "string"
     },
     "featuredImage": {
       "type": "media",
       "multiple": false,
-      "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

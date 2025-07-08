@@ -4,8 +4,7 @@
   "info": {
     "singularName": "article",
     "pluralName": "articles",
-    "displayName": "Article",
-    "description": "News articles and blog posts"
+    "displayName": "Article"
   },
   "options": {
     "draftAndPublish": true
@@ -13,43 +12,33 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string",
-      "required": true,
-      "maxLength": 255
+      "type": "string"
     },
     "content": {
-      "type": "richtext",
-      "required": true
+      "type": "blocks"
     },
-    "excerpt": {
-      "type": "text",
-      "maxLength": 500
+    "author": {
+      "type": "string"
     },
     "slug": {
       "type": "uid",
-      "targetField": "title",
-      "required": true
+      "targetField": "title"
     },
-    "author": {
-      "type": "string",
-      "required": true
+    "provider": {
+      "type": "string"
     },
     "featured": {
-      "type": "boolean",
-      "default": false
+      "type": "boolean"
     },
     "featuredImage": {
       "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": ["images"]
-    },
-    "provider": {
-      "type": "string",
-      "required": true
-    },
-    "externalLink": {
-      "type": "string"
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }
