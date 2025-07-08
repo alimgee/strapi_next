@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Cards from "@/components/Cards";
 
 export default function Home() {
   return (
@@ -57,6 +58,11 @@ export default function Home() {
             <li>Add content through the admin panel</li>
             <li>View the integration in the <Link href="/demo" className="text-blue-600 hover:underline">demo page</Link></li>
           </ol>
+        </div>
+
+          <div className="w-full max-w-2xl">
+          <h2 className="text-lg font-semibold mb-3">Cards from Strapi:</h2>
+          <Cards />
         </div>
       </main>
     </div>

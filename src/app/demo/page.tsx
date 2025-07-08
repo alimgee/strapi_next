@@ -12,8 +12,29 @@ export default function DemoPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [useMockData, setUseMockData] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Helper function to extract text from Strapi rich text blocks
+  const extractTextFromBlocks = (blocks: any): string => {
+    if (!blocks || typeof blocks === 'string') return blocks || '';
+    if (Array.isArray(blocks)) {
+      return blocks.map(block => {
+        if (block.children) {
+          return block.children.map((child: any) => child.text || '').join('');
+        }
+        return '';
+      }).join(' ');
+    }
+    return '';
+  };
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -54,7 +75,18 @@ export default function DemoPage() {
     };
 
     fetchData();
-  }, []);
+  }, [mounted]);
+
+  if (!mounted) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <span className="ml-2">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -93,10 +125,13 @@ export default function DemoPage() {
             <div className="grid gap-4">
               {articles.slice(0, 3).map((article) => (
                 <div key={article.id} className="border border-gray-200 rounded p-4">
-                  <h3 className="font-semibold">{article.attributes.title}</h3>
-                  <p className="text-gray-600 text-sm">{article.attributes.excerpt}</p>
+                  <h3 className="font-semibold">{article.title}</h3>
+                  <p className="text-gray-600 text-sm">
+                    {article.excerpt || extractTextFromBlocks(article.content)?.slice(0, 100) || 'No excerpt available'}
+                    {(article.excerpt || extractTextFromBlocks(article.content))?.length > 100 && '...'}
+                  </p>
                   <p className="text-xs text-gray-500 mt-2">
-                    By {article.attributes.author} • {new Date(article.attributes.publishedAt).toLocaleDateString()}
+                    By {article.author} • {article.publishedAt?.split('T')[0]}
                   </p>
                 </div>
               ))}
@@ -116,10 +151,13 @@ export default function DemoPage() {
             <div className="grid gap-4">
               {organizations.slice(0, 3).map((org) => (
                 <div key={org.id} className="border border-gray-200 rounded p-4">
-                  <h3 className="font-semibold">{org.attributes.name}</h3>
-                  <p className="text-gray-600 text-sm">{org.attributes.description?.slice(0, 100)}...</p>
-                  <a href={org.attributes.website} className="text-blue-600 hover:underline text-sm">
-                    {org.attributes.website}
+                  <h3 className="font-semibold">{org.name}</h3>
+                  <p className="text-gray-600 text-sm">
+                    {extractTextFromBlocks(org.description)?.slice(0, 100) || 'No description available'}
+                    {extractTextFromBlocks(org.description)?.length > 100 && '...'}
+                  </p>
+                  <a href={org.website} className="text-blue-600 hover:underline text-sm">
+                    {org.website}
                   </a>
                 </div>
               ))}
@@ -139,10 +177,14 @@ export default function DemoPage() {
             <div className="grid gap-4">
               {pages.slice(0, 3).map((page) => (
                 <div key={page.id} className="border border-gray-200 rounded p-4">
-                  <h3 className="font-semibold">{page.attributes.title}</h3>
-                  <p className="text-gray-600 text-sm">Slug: /{page.attributes.slug}</p>
+                  <h3 className="font-semibold">{page.title}</h3>
+                  <p className="text-gray-600 text-sm">Slug: /{page.slug || 'no-slug'}</p>
+                  <p className="text-gray-600 text-sm mb-2">
+                    {extractTextFromBlocks(page.content)?.slice(0, 80) || 'No content preview'}
+                    {extractTextFromBlocks(page.content)?.length > 80 && '...'}
+                  </p>
                   <p className="text-xs text-gray-500 mt-2">
-                    Updated: {new Date(page.attributes.updatedAt).toLocaleDateString()}
+                    Updated: {page.updatedAt?.split('T')[0]}
                   </p>
                 </div>
               ))}
@@ -153,41 +195,6 @@ export default function DemoPage() {
               <p className="text-sm mt-2">Create pages in Strapi admin</p>
             </div>
           )}
-        </div>
-
-        {/* API Documentation */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-semibold mb-4">API Usage Examples</h2>
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold text-lg">Fetching Articles</h3>
-              <pre className="bg-gray-100 dark:bg-gray-900 p-3 rounded text-sm overflow-x-auto">
-{`import { articlesAPI } from '@/lib/strapi';
-
-// Get all articles
-const articles = await articlesAPI.getAll();
-
-// Get featured articles
-const featured = await articlesAPI.getFeatured(3);
-
-// Get article by slug
-const article = await articlesAPI.getBySlug('example-slug');`}
-              </pre>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold text-lg">Fetching Organizations</h3>
-              <pre className="bg-gray-100 dark:bg-gray-900 p-3 rounded text-sm overflow-x-auto">
-{`import { organizationsAPI } from '@/lib/strapi';
-
-// Get all organizations
-const organizations = await organizationsAPI.getAll();
-
-// Get featured organizations
-const featured = await organizationsAPI.getFeatured();`}
-              </pre>
-            </div>
-          </div>
         </div>
       </div>
     </div>

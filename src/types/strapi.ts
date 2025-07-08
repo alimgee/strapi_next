@@ -16,69 +16,47 @@ export interface StrapiSingleResponse<T> {
   meta: {};
 }
 
-// Base Strapi Entity
+// Base Strapi Entity (Strapi v5 structure)
 export interface StrapiEntity {
   id: number;
-  attributes: {
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-  };
+  documentId: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
 
-// Article Content Type
+// Article Content Type (Strapi v5 structure)
 export interface Article extends StrapiEntity {
-  attributes: {
-    title: string;
-    content: string;
-    excerpt: string;
-    slug: string;
-    publishedAt: string;
-    createdAt: string;
-    updatedAt: string;
-    author: string;
-    featured: boolean;
-    featuredImage?: {
-      data: MediaFile | null;
-    };
-    provider: string;
-    externalLink?: string;
-  };
+  title: string;
+  content: any; // Rich text blocks
+  excerpt?: string;
+  slug: string;
+  author: string;
+  featured?: boolean;
+  featuredImage?: any;
+  provider: string;
+  externalLink?: string;
 }
 
-// Organization Content Type
+// Organization Content Type (Strapi v5 structure)
 export interface Organization extends StrapiEntity {
-  attributes: {
-    name: string;
-    description: string;
-    website: string;
-    email?: string;
-    phone?: string;
-    logo: {
-      data: MediaFile | null;
-    };
-    featured: boolean;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-  };
+  name: string;
+  description: any; // Rich text blocks  
+  website: string;
+  email?: string;
+  phone?: string;
+  logo?: any;
+  featured?: boolean;
 }
 
-// Page Content Type (for About, Story, etc.)
+// Page Content Type (Strapi v5 structure)
 export interface Page extends StrapiEntity {
-  attributes: {
-    title: string;
-    slug: string;
-    content: string;
-    metaTitle?: string;
-    metaDescription?: string;
-    featuredImage?: {
-      data: MediaFile | null;
-    };
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-  };
+  title: string;
+  slug: string;
+  content: any; // Rich text blocks
+  metaTitle?: string;
+  metaDescription?: string;
+  featuredImage?: any;
 }
 
 // Media File Type
@@ -134,4 +112,19 @@ export interface StrapiQueryParams {
   fields?: string[];
   locale?: string;
   publicationState?: 'live' | 'preview';
+}
+
+export interface Card {
+  id: number;
+  title: string;
+  content: any;
+  icon?: string;
+  bgColor?: string;
+  textColor?: string;
+  buttonText?: string;
+  buttonLink?: string;
+  featured?: boolean;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
